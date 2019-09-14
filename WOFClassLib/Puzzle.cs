@@ -18,10 +18,10 @@ namespace WOFClassLib
         {
             puzzlePhrase = phrase;
             phraseLength = phrase.Length;
-            display = initializePuzzle(phrase);
+            display = InitializePuzzle(phrase);
         } 
         
-        private char[] initializePuzzle(string phrase)
+        private char[] InitializePuzzle(string phrase)
         {
             string puzzle = "";
             for(int i = 0; i < phraseLength; i++)
@@ -76,7 +76,7 @@ namespace WOFClassLib
             }
         }
 
-        public bool isSolved()
+        public bool IsSolved()
         {
             return solved;
         }
