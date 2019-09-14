@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -71,7 +73,21 @@ namespace WheelOfFortune
         }
         public void Quit()
         {
-            return;
+            Console.WriteLine("Would you like to quit (Y/N)?");
+            if (Console.ReadLine == 'Y')
+            {
+
+                return;
+            }
+            else if (Console.ReadLine == 'N')
+            {
+                Game.Continue();
+            }
+            else
+            {
+                Console.WriteLine("Would you like to quit (Y/N)?");
+                Quit();
+            }
         }
     }
 }
