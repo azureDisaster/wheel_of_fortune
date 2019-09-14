@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -65,7 +67,11 @@ namespace WheelOfFortune
             }
 
             Console.WriteLine("Your guess was wrong... Let's move on to the next player.");
-
+        
+        }
+        public void Quit()
+        {
+            return;
         }
     }
 }
