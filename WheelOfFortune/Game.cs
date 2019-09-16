@@ -76,7 +76,6 @@ namespace WheelOfFortune
             Console.WriteLine("Would you like to quit (Y/N)?");
             if (Console.ReadLine == 'Y')
             {
-
                 return;
             }
             else if (Console.ReadLine == 'N')
@@ -85,9 +84,13 @@ namespace WheelOfFortune
             }
             else
             {
-                Console.WriteLine("Would you like to quit (Y/N)?");
-                Quit();
+                throw new ArgumentException("Please enter Y/N only to exit the Game");
             }
+        }
+
+        public void Continue()
+        {
+
         }
     }
 }
