@@ -25,15 +25,6 @@ namespace WOFClassLib
         
         private char[] InitializePuzzle(string phrase)
         {
-            try
-            {
-                IsValidPuzzle(phrase);
-            }
-            catch(ArgumentException e)
-            {
-                Console.WriteLine("The puzzle is invalid.");
-            }
-
             string puzzle = "";
             for(int i = 0; i < phraseLength; i++)
             {
@@ -61,10 +52,6 @@ namespace WOFClassLib
 
         public int Guess(char guess)
         {
-            if(!Char.IsLetter(guess))
-            {
-                throw new ArgumentException("The guess character must be a valid letter");
-            }
             guess = Char.ToLower(guess);
             int numberOfMatches = 0;
             char[] currentDisplayArray = GetPuzzleDisplayAsArray();
@@ -117,6 +104,14 @@ namespace WOFClassLib
                         throw new ArgumentException("The puzzle phrase should not contain consecutive spaces.");
                     }
                 }
+            }
+        }
+
+        public void IsValidGuess(char guess)
+        {
+            if (!Char.IsLetter(guess))
+            {
+                throw new ArgumentException("The guess character must be a valid letter");
             }
         }
     }
