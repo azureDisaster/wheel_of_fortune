@@ -71,17 +71,6 @@ namespace WOFClassLib.Tests
         }
 
         [Theory]
-        [InlineData("dogs   cats")]
-        [InlineData("back 2 back")]
-        [InlineData("yes/no")]
-        public void TestInvalidPuzzleThrowsException(string invalidPhrase)
-        {
-            Puzzle testPuzzle = new Puzzle(invalidPhrase);
-            Assert.Throws<ArgumentException>(
-                () => testPuzzle.IsValidPuzzle());
-        }
-
-        [Theory]
         [InlineData('$')]
         [InlineData('1')]
         [InlineData(' ')]
@@ -89,8 +78,7 @@ namespace WOFClassLib.Tests
         {
             Puzzle testPuzzle = new Puzzle("test puzzle");
             Assert.Throws<ArgumentException>(
-                () => testPuzzle.IsValidGuess(invalidGuess));
+                () => testPuzzle.Guess(invalidGuess));
         }
-
     }
 }

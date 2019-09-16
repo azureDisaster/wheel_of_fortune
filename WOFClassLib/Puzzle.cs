@@ -26,9 +26,26 @@ namespace WOFClassLib
         private char[] InitializePuzzle(string phrase)
         {
             string puzzle = "";
-            for(int i = 0; i < phraseLength; i++)
+
+            for (int i = 0; i < phraseLength; i++)
             {
-                if(Char.IsWhiteSpace(phrase[i]))
+                char c = puzzlePhrase[i];
+
+                if (!char.IsLetter(c) && !char.IsWhiteSpace(c))
+                {
+                    throw new ArgumentException("The puzzle phrase should only contain characters that are letters or spaces.");
+                }
+
+                if (i != phraseLength - 1)
+                {
+                    char nextChar = puzzlePhrase[i + 1];
+                    if (char.IsWhiteSpace(c) && char.IsWhiteSpace(nextChar))
+                    {
+                        throw new ArgumentException("The puzzle phrase should not contain consecutive spaces.");
+                    }
+                }
+
+                if(char.IsWhiteSpace(c))
                 {
                     puzzle += " ";
                 }
@@ -37,7 +54,7 @@ namespace WOFClassLib
                     puzzle += "-";
                 }
             }
-            return puzzle.ToCharArray();
+            return puzzle.ToCharArray();     
         }
 
         private char[] GetPuzzleDisplayAsArray()
@@ -52,7 +69,12 @@ namespace WOFClassLib
 
         public int Guess(char guess)
         {
-            guess = Char.ToUpper(guess);
+            if (!char.IsLetter(guess))
+            {
+                throw new ArgumentException("The guessed character must be a valid letter");
+            }
+
+            guess = char.ToUpper(guess);
             int numberOfMatches = 0;
             char[] currentDisplayArray = GetPuzzleDisplayAsArray();
             for(int i = 0; i < phraseLength; i++)
@@ -82,36 +104,6 @@ namespace WOFClassLib
         public bool IsSolved()
         {
             return solved;
-        }
-
-        public void IsValidPuzzle()
-        {
-            for(int i = 0; i < phraseLength; i++)
-            {
-                char c = puzzlePhrase[i];
-                
-                if(!Char.IsLetter(c) && !Char.IsWhiteSpace(c))
-                {
-                    throw new ArgumentException("The puzzle phrase can only characters that are letters or spaces.");
-                }
-
-                if (i != phraseLength - 1)
-                {
-                    char nextChar = puzzlePhrase[i + 1];
-                    if (Char.IsWhiteSpace(c) && char.IsWhiteSpace(nextChar))
-                    {
-                        throw new ArgumentException("The puzzle phrase should not contain consecutive spaces.");
-                    }
-                }
-            }
-        }
-
-        public void IsValidGuess(char guess)
-        {
-            if (!Char.IsLetter(guess))
-            {
-                throw new ArgumentException("The guess character must be a valid letter");
-            }
         }
     }
 }
