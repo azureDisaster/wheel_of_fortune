@@ -22,5 +22,10 @@ namespace WOFClassLib.Tests
             string puzzleDisplay2 = testPuzzle2.GetPuzzleDisplay();
             Assert.Equal(testDisplay2, puzzleDisplay2);
         }
+
+        public void TestGuess()
+        {
+
+        }
     }
 }

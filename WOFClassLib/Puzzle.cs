@@ -1,5 +1,7 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,13 +18,22 @@ namespace WOFClassLib
 
         public Puzzle(string phrase)
         {
-            puzzlePhrase = phrase;
+            puzzlePhrase = phrase.ToLower();
             phraseLength = phrase.Length;
-            display = InitializePuzzle(phrase);
+            display = InitializePuzzle(phrase.ToLower());
         } 
         
         private char[] InitializePuzzle(string phrase)
         {
+            try
+            {
+                IsValidPuzzle(phrase);
+            }
+            catch(ArgumentException e)
+            {
+                Console.WriteLine("The puzzle is invalid.");
+            }
+
             string puzzle = "";
             for(int i = 0; i < phraseLength; i++)
             {
@@ -50,6 +61,11 @@ namespace WOFClassLib
 
         public int Guess(char guess)
         {
+            if(!Char.IsLetter(guess))
+            {
+                throw new ArgumentException("The guess character must be a valid letter");
+            }
+            guess = Char.ToLower(guess);
             int numberOfMatches = 0;
             char[] currentDisplayArray = GetPuzzleDisplayAsArray();
             for(int i = 0; i < phraseLength; i++)
@@ -81,5 +97,27 @@ namespace WOFClassLib
             return solved;
         }
 
+        public void IsValidPuzzle(string phrase)
+        {
+            for(int i = 0; i < phrase.Length; i++)
+            {
+                char c = phrase[i];
+                
+               
+                if(!Char.IsLetter(c) && !Char.IsWhiteSpace(c))
+                {
+                    throw new ArgumentException("The puzzle phrase can only characters that are letters or spaces.");
+                }
+
+                if (i != phrase.Length - 1)
+                {
+                    char nextChar = phrase[i + 1];
+                    if (Char.IsWhiteSpace(c) && char.IsWhiteSpace(nextChar))
+                    {
+                        throw new ArgumentException("The puzzle phrase should not contain consecutive spaces.");
+                    }
+                }
+            }
+        }
     }
 }
