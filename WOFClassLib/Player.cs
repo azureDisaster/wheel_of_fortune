@@ -57,6 +57,17 @@ namespace WOFClassLib
         /// <returns>The number of letters matched</returns>
         public int GuessLetter(char guess, Puzzle puzzle, int spinAmount = 0)
         {
+            //Throw argument errors if input parametes are not valid
+            if (puzzle == null)
+            {
+                throw new ArgumentNullException(nameof(puzzle));
+            }
+            if (spinAmount < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(spinAmount), "Argument out of range, should be greater than or equal to zero");
+
+            }
+
             // TODO: update to use puzzle method
             int numLetters = 0; //puzzle.Guess(guess);
             roundMoney += numLetters * spinAmount;
@@ -71,6 +82,13 @@ namespace WOFClassLib
         /// <returns>true if the guess was correct.</returns>
         public bool SolvePuzzle(string guess, Puzzle puzzle)
         {
+
+            //Throw argument errors if input parametes are not valid
+            if (puzzle == null)
+            {
+                throw new ArgumentNullException(nameof(puzzle));
+            }
+
             // TODO: Update to use puzzle method
             bool isSolved = true; // puzzle.Solve(guess);
             if (isSolved)
