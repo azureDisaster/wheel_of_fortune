@@ -80,16 +80,16 @@ namespace WOFClassLib.Tests
         //        () => new Puzzle(invalidPhrase));
         //}
 
-        [Theory]
-        [InlineData('$')]
-        [InlineData('1')]
-        [InlineData(' ')]
-        public void TestInvalidGuessThrowsException(char invalidGuess)
-        {
-            Puzzle testPuzzle = new Puzzle("test puzzle");
-            Assert.Throws<ArgumentException>(
-                () => testPuzzle.Guess(invalidGuess));
-        }
+        //[Theory]
+        //[InlineData('$')]
+        //[InlineData('1')]
+        //[InlineData(' ')]
+        //public void TestInvalidGuessThrowsException(char invalidGuess)
+        //{
+        //    Puzzle testPuzzle = new Puzzle("test puzzle");
+        //    Assert.Throws<ArgumentException>(
+        //        () => testPuzzle.Guess(invalidGuess));
+        //}
 
     }
 }
