@@ -17,19 +17,19 @@ namespace WOFClassLib.Tests
             string puzzleDisplay1 = testPuzzle1.GetPuzzleDisplay();
             Assert.Equal(testDisplay1, puzzleDisplay1);
 
-            Puzzle testPuzzle2 = new Puzzle("dogs and cats");
+            Puzzle testPuzzle2 = new Puzzle("Dogs and Cats");
             string testDisplay2 = "---- --- ----";
             string puzzleDisplay2 = testPuzzle2.GetPuzzleDisplay();
             Assert.Equal(testDisplay2, puzzleDisplay2);
         }
 
         [Theory]
-        [InlineData("dog", new char[] {'d'}, "d--")]
-        [InlineData("dog", new char[] { 'o' }, "-o-")]
-        [InlineData("dog", new char[] { 'g', 'o' }, "-og")]
-        [InlineData("dog", new char[] { 'g', 'g' }, "--g")]
-        [InlineData("dogs and cats", new char[] { 'C', 'a', 'S', 'd' }, "d--s a-d ca-s")]
-        [InlineData("leap", new char[] { 'x', 'p' }, "---p")]
+        [InlineData("dog", new char[] {'d'}, "D--")]
+        [InlineData("Dog", new char[] { 'o' }, "-O-")]
+        [InlineData("DOG", new char[] { 'g', 'o' }, "-OG")]
+        [InlineData("dog", new char[] { 'g', 'g' }, "--G")]
+        [InlineData("Dogs and Cats", new char[] { 'C', 'a', 'S', 'd' }, "D--S A-D CA-S")]
+        [InlineData("LEAP", new char[] { 'x', 'p' }, "---P")]
         public void TestGuessUpdatesPuzzle(string phrase, char[] guesses, string expectedResultDisplay)
         {
             Puzzle testPuzzle = new Puzzle(phrase);
@@ -41,9 +41,9 @@ namespace WOFClassLib.Tests
         }
 
         [Theory]
-        [InlineData("quest", 'z', 0)]
-        [InlineData("wolf", 'w', 1)]
-        [InlineData("little red riding hood", 'r', 2)]
+        [InlineData("QUEST", 'z', 0)]
+        [InlineData("Wolf", 'w', 1)]
+        [InlineData("Little Red Riding Hood", 'r', 2)]
         public void TestGuessReturnsCorrectNumberOfMatches(string phrase, char guess, int expectedNumMatches)
         {
             Puzzle testPuzzle = new Puzzle(phrase);
@@ -52,9 +52,9 @@ namespace WOFClassLib.Tests
         }
 
         [Theory]
-        [InlineData("Microsoft Azure", "microsoft azure", true)]
+        [InlineData("Microsoft Azure", "MICROSOFT AZURE", true)]
         [InlineData("dogs", "cats", false)]
-        [InlineData("United States of America", "United States", false)]
+        [InlineData("United States of America", "UNITED STATES", false)]
         public void TestSolvePuzzle(string phrase, string guess, bool expectedResult)
         {
             Puzzle testPuzzle = new Puzzle(phrase);
@@ -70,26 +70,27 @@ namespace WOFClassLib.Tests
             } 
         }
 
-        //[Theory]
-        //[InlineData("dogs   cats")]
-        //[InlineData("back 2 back")]
-        //[InlineData("yes/no")]
-        //public void TestInvalidPuzzleThrowsException(string invalidPhrase)
-        //{
-        //    Assert.Throws<ArgumentException>(
-        //        () => new Puzzle(invalidPhrase));
-        //}
+        [Theory]
+        [InlineData("dogs   cats")]
+        [InlineData("back 2 back")]
+        [InlineData("yes/no")]
+        public void TestInvalidPuzzleThrowsException(string invalidPhrase)
+        {
+            Puzzle testPuzzle = new Puzzle(invalidPhrase);
+            Assert.Throws<ArgumentException>(
+                () => testPuzzle.IsValidPuzzle());
+        }
 
-        //[Theory]
-        //[InlineData('$')]
-        //[InlineData('1')]
-        //[InlineData(' ')]
-        //public void TestInvalidGuessThrowsException(char invalidGuess)
-        //{
-        //    Puzzle testPuzzle = new Puzzle("test puzzle");
-        //    Assert.Throws<ArgumentException>(
-        //        () => testPuzzle.Guess(invalidGuess));
-        //}
+        [Theory]
+        [InlineData('$')]
+        [InlineData('1')]
+        [InlineData(' ')]
+        public void TestInvalidGuessThrowsException(char invalidGuess)
+        {
+            Puzzle testPuzzle = new Puzzle("test puzzle");
+            Assert.Throws<ArgumentException>(
+                () => testPuzzle.IsValidGuess(invalidGuess));
+        }
 
     }
 }

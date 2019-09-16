@@ -18,9 +18,9 @@ namespace WOFClassLib
 
         public Puzzle(string phrase)
         {
-            puzzlePhrase = phrase.ToLower();
+            puzzlePhrase = phrase.ToUpper();
             phraseLength = phrase.Length;
-            display = InitializePuzzle(phrase.ToLower());
+            display = InitializePuzzle(phrase.ToUpper());
         } 
         
         private char[] InitializePuzzle(string phrase)
@@ -52,7 +52,7 @@ namespace WOFClassLib
 
         public int Guess(char guess)
         {
-            guess = Char.ToLower(guess);
+            guess = Char.ToUpper(guess);
             int numberOfMatches = 0;
             char[] currentDisplayArray = GetPuzzleDisplayAsArray();
             for(int i = 0; i < phraseLength; i++)
@@ -84,21 +84,20 @@ namespace WOFClassLib
             return solved;
         }
 
-        public void IsValidPuzzle(string phrase)
+        public void IsValidPuzzle()
         {
-            for(int i = 0; i < phrase.Length; i++)
+            for(int i = 0; i < phraseLength; i++)
             {
-                char c = phrase[i];
+                char c = puzzlePhrase[i];
                 
-               
                 if(!Char.IsLetter(c) && !Char.IsWhiteSpace(c))
                 {
                     throw new ArgumentException("The puzzle phrase can only characters that are letters or spaces.");
                 }
 
-                if (i != phrase.Length - 1)
+                if (i != phraseLength - 1)
                 {
-                    char nextChar = phrase[i + 1];
+                    char nextChar = puzzlePhrase[i + 1];
                     if (Char.IsWhiteSpace(c) && char.IsWhiteSpace(nextChar))
                     {
                         throw new ArgumentException("The puzzle phrase should not contain consecutive spaces.");
