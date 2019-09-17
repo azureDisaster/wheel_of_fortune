@@ -13,7 +13,7 @@ namespace WOFClassLib
         public Puzzle puzzle = new Puzzle("hello"); //hardcoded atm
         public static bool playing = true;
         public int currentPlayer = 1;
-
+        //public int numberOfMatches = 0;
         public int totalPlayers;
         public void Start()
         {
@@ -36,24 +36,33 @@ namespace WOFClassLib
                 currentPlayer = currentPlayer == totalPlayers ? 1 : currentPlayer += 1;
             }
 
-            Console.WriteLine("Game Over! Press any key to exit Wheel of Fortune.");
+            Quit();
 
 
         }
 
         public void Play(int player)
         {
-            // call Puzzle.Display();
+           
             Console.WriteLine("Hey player {0}! Make a guess.", player);
-            // input validation 
-            string guess = Console.ReadLine(); // string to char : 'h'
+            string guess = Console.ReadLine();
+            int numberOfCorrectLetters = 0; 
 
-            Console.WriteLine("You guessed: {0}!", guess); 
-            int numberOfCorrectLetters = puzzle.Guess(guess); // number correct (1)
-            Console.WriteLine(numberOfCorrectLetters); //testing
-            bool isSolved = puzzle.IsSolved();
-            Console.WriteLine(isSolved);
-            // bool prevGuessCorrect = numberOfCorrectLetters >= 1 ? true : false; // T||F
+            try
+            {
+              Console.WriteLine("You guessed: {0}!", guess);
+              numberOfCorrectLetters = puzzle.Guess(guess); 
+            }
+            catch(ArgumentException)
+            {
+                Console.WriteLine("Please enter a single letter.");
+                guess = Console.ReadLine();
+                numberOfCorrectLetters = puzzle.Guess(guess);
+            }
+
+                bool isSolved = puzzle.IsSolved();
+                
+            
 
             while (numberOfCorrectLetters >= 1 && !isSolved)
             {
@@ -61,23 +70,19 @@ namespace WOFClassLib
                 // if the guess.length > 1 then assign as a string
                 guess = Console.ReadLine();
                 if(guess.Length > 1) // trying to guess the phrase
-                {   
+                {
                     isSolved = puzzle.Solve(guess); // returns if solved with phrase or not
+                    
+                    
                     if (isSolved)
                     {
                         Console.WriteLine("You solved it!");
                         Quit();
                     }
-                } else // try ti guess a single char
-                {   // need to convert the string to char
-                    numberOfCorrectLetters = puzzle.Guess(guess); // checking if guess is correct (which updates the puzzle.isSolved)
+                } else
+                {  
+                    numberOfCorrectLetters = puzzle.Guess(guess); 
                     isSolved = puzzle.IsSolved();
-                    
-                    // check for if the guess was correct && check if puzzle is solved
-                    // if the guess was correct, update numcorrectletters, update puzzle and keep looping
-                    // if the puzzle was solved, update numCorrectLetters, update isSolved (breaks loop)
-                    // if inccorect, numcorrectletters = 0
-
                    
                 }
                 Console.WriteLine("You guessed: {0}", guess);
@@ -85,12 +90,23 @@ namespace WOFClassLib
                 numberOfCorrectLetters = puzzle.Guess(guess);
             }
 
+            if(isSolved)
+            {
+                Console.WriteLine("Congrats!");
+                playing = false;
+                
+
+            } else
+            {
             Console.WriteLine("Your guess was wrong... Let's move on to the next player.");
+            }
 
         }
         public void Quit()
         {
-            return;
+            Console.WriteLine("The game is over! Press any key to exit out.");
+            Console.ReadKey();
+            Environment.Exit(0);
         }
     }
 }
