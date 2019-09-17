@@ -68,8 +68,8 @@ namespace WOFClassLib
 
             }
 
-            // TODO: update to use puzzle method
-            int numLetters = 0; //puzzle.Guess(guess);
+            // Try the guess and return the number of letters matched
+            int numLetters = puzzle.Guess(guess);
             roundMoney += numLetters * spinAmount;
             return numLetters;
         }
@@ -89,8 +89,8 @@ namespace WOFClassLib
                 throw new ArgumentNullException(nameof(puzzle));
             }
 
-            // TODO: Update to use puzzle method
-            bool isSolved = true; // puzzle.Solve(guess);
+            // Try to solve the puzzle, if correct update the TotalMoney
+            bool isSolved = puzzle.Solve(guess);
             if (isSolved)
             {
                 totalMoney += RoundMoney;
