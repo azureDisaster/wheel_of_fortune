@@ -30,7 +30,7 @@ namespace WOFClassLib.Tests
         [InlineData("dog", new char[] { 'g', 'g' }, "--G")]
         [InlineData("Dogs and Cats", new char[] { 'C', 'a', 'S', 'd' }, "D--S A-D CA-S")]
         [InlineData("LEAP", new char[] { 'x', 'p' }, "---P")]
-        public void TestGuessUpdatesPuzzle(string phrase, char[] guesses, string expectedResultDisplay)
+        public void TestGuessCharUpdatesPuzzle(string phrase, char[] guesses, string expectedResultDisplay)
         {
             Puzzle testPuzzle = new Puzzle(phrase);
             foreach (char guess in guesses)
@@ -41,10 +41,38 @@ namespace WOFClassLib.Tests
         }
 
         [Theory]
+        [InlineData("dog", new string[] { "d" }, "D--")]
+        [InlineData("Dog", new string[] { "o" }, "-O-")]
+        [InlineData("DOG", new string[] { "g", "o" }, "-OG")]
+        [InlineData("dog", new string[] { "g", "g" }, "--G")]
+        [InlineData("Dogs and Cats", new string[] { "C", "a", "S", "d" }, "D--S A-D CA-S")]
+        [InlineData("LEAP", new string[] { "x", "p" }, "---P")]
+        public void TestGuessStringUpdatesPuzzle(string phrase, string[] guesses, string expectedResultDisplay)
+        {
+            Puzzle testPuzzle = new Puzzle(phrase);
+            foreach (string guess in guesses)
+            {
+                testPuzzle.Guess(guess);
+            }
+            Assert.Equal(expectedResultDisplay, testPuzzle.GetPuzzleDisplay());
+        }
+
+        [Theory]
         [InlineData("QUEST", 'z', 0)]
         [InlineData("Wolf", 'w', 1)]
         [InlineData("Little Red Riding Hood", 'r', 2)]
-        public void TestGuessReturnsCorrectNumberOfMatches(string phrase, char guess, int expectedNumMatches)
+        public void TestGuessCharReturnsCorrectNumberOfMatches(string phrase, char guess, int expectedNumMatches)
+        {
+            Puzzle testPuzzle = new Puzzle(phrase);
+            int numberOfMatches = testPuzzle.Guess(guess);
+            Assert.Equal(expectedNumMatches, numberOfMatches);
+        }
+
+        [Theory]
+        [InlineData("QUEST", "z", 0)]
+        [InlineData("Wolf", "w", 1)]
+        [InlineData("Little Red Riding Hood", "r", 2)]
+        public void TestGuessStringReturnsCorrectNumberOfMatches(string phrase, string guess, int expectedNumMatches)
         {
             Puzzle testPuzzle = new Puzzle(phrase);
             int numberOfMatches = testPuzzle.Guess(guess);
