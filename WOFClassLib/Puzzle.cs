@@ -130,7 +130,7 @@ namespace WOFClassLib
 
         public bool Solve(string guess)
         {
-            if(guess.Equals(puzzlePhrase))
+            if(guess.ToUpper().Equals(puzzlePhrase))
             {
                 solved = true;
                 return true;
