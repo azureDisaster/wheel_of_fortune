@@ -77,12 +77,48 @@ namespace WOFClassLib
             guess = char.ToUpper(guess);
             int numberOfMatches = 0;
             char[] currentDisplayArray = GetPuzzleDisplayAsArray();
-            for(int i = 0; i < phraseLength; i++)
+
+            for (int i = 0; i < phraseLength; i++)
             {
-                if(puzzlePhrase[i].Equals(guess))
+                if (puzzlePhrase[i].Equals(guess))
                 {
                     numberOfMatches++;
+
                     currentDisplayArray[i] = guess;
+
+                    if (!display.Contains('-'))
+                    {
+                        solved = true;
+                    }
+                }
+            }
+            return numberOfMatches;
+        }
+
+        public int Guess(string guess)
+        {
+            if(guess.Length != 1)
+            {
+                throw new ArgumentException("The guessed string must have a length of one.");
+            }
+
+            foreach(char c in guess)
+            {
+                if (!char.IsLetter(c))
+                {
+                    throw new ArgumentException("The guessed stringr must be a valid letter");
+                }
+            }
+
+            char guessed_char = char.ToUpper(guess[0]);
+            int numberOfMatches = 0;
+            char[] currentDisplayArray = GetPuzzleDisplayAsArray();
+            for(int i = 0; i < phraseLength; i++)
+            {
+                if(puzzlePhrase[i].Equals(guessed_char))
+                {
+                    numberOfMatches++;
+                    currentDisplayArray[i] = guessed_char;
                     if(!display.Contains('-'))
                     {
                         solved = true;
