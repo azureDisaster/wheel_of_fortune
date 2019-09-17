@@ -83,6 +83,10 @@ namespace WOFClassLib
                 {
                     numberOfMatches++;
                     currentDisplayArray[i] = guess;
+                    if(!display.Contains('-'))
+                    {
+                        solved = true;
+                    }
                 }
             }
             return numberOfMatches;

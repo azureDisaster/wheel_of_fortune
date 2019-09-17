@@ -24,7 +24,7 @@ namespace WOFClassLib.Tests
         }
 
         [Theory]
-        [InlineData("dog", new char[] {'d'}, "D--")]
+        [InlineData("dog", new char[] { 'd' }, "D--")]
         [InlineData("Dog", new char[] { 'o' }, "-O-")]
         [InlineData("DOG", new char[] { 'g', 'o' }, "-OG")]
         [InlineData("dog", new char[] { 'g', 'g' }, "--G")]
@@ -58,7 +58,7 @@ namespace WOFClassLib.Tests
         public void TestSolvePuzzle(string phrase, string guess, bool expectedResult)
         {
             Puzzle testPuzzle = new Puzzle(phrase);
-            if(expectedResult == true)
+            if (expectedResult == true)
             {
                 Assert.True(testPuzzle.Solve(guess));
                 Assert.True(testPuzzle.IsSolved());
@@ -67,7 +67,7 @@ namespace WOFClassLib.Tests
             {
                 Assert.False(testPuzzle.Solve(guess));
                 Assert.False(testPuzzle.IsSolved());
-            } 
+            }
         }
 
         [Theory]
@@ -79,6 +79,27 @@ namespace WOFClassLib.Tests
             Puzzle testPuzzle = new Puzzle("test puzzle");
             Assert.Throws<ArgumentException>(
                 () => testPuzzle.Guess(invalidGuess));
+        }
+
+        [Theory]
+        [InlineData("dog", new char[] { 'd', 'o', 'g' }, true)]
+        [InlineData("dog", new char[] { 'x', 'o' }, false)]
+        public void TestPuzzleIsSolved(string phrase, char[] guesses, bool expectedResult)
+        {
+            Puzzle testPuzzle = new Puzzle(phrase);
+            foreach(char guess in guesses)
+            {
+                testPuzzle.Guess(guess);
+            }
+
+            if (expectedResult == true)
+            {
+                Assert.True(testPuzzle.IsSolved());
+            }
+            else
+            {
+                Assert.False(testPuzzle.IsSolved());
+            }
         }
     }
 }
