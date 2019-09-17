@@ -11,9 +11,11 @@ namespace WheelOfFortune
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("ayyyye");
-            Console.ReadLine();
 
+            Game game = new Game();
+            
+            game.Start(); 
+            Console.ReadKey();
         }
     }
 }
