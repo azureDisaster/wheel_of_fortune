@@ -61,24 +61,26 @@ namespace WOFClassLib
             try
             {
               Console.WriteLine("You guessed: {0}!", guess);
+              //Console.WriteLine(puzzle.GetPuzzleDisplay());
               numberOfCorrectLetters = player.GuessLetter(guess, puzzle);
             }
             catch(ArgumentException)
             {
                 Console.WriteLine("Please enter a single letter.");
                 guess = Console.ReadLine();
-                numberOfCorrectLetters = player.GuessLetter(guess, puzzle); 
+                numberOfCorrectLetters = player.GuessLetter(guess, puzzle);
             }
-
-                bool isSolved = puzzle.IsSolved(); // false
-                Console.WriteLine(isSolved);
-                Console.WriteLine(puzzle.GetPuzzleDisplay());
+            Console.WriteLine(puzzle.GetPuzzleDisplay());
+            bool isSolved = puzzle.IsSolved(); // false
+                
            
 
 
             while (numberOfCorrectLetters >= 1 && !isSolved)
             {
+                
                 Console.WriteLine("Since you guessed correctly, make another guess or attempt to solve!");
+                
                 // if the guess.length > 1 then assign as a string
                 guess = Console.ReadLine();
                 if(guess.Length > 1) // trying to guess the phrase
@@ -87,6 +89,7 @@ namespace WOFClassLib
                     if (isSolved)
                     {
                         Console.WriteLine("You solved it!");
+                        Console.WriteLine(puzzle.GetPuzzleDisplay());
                         Quit();
                     }
                     numberOfCorrectLetters = 0;
@@ -95,8 +98,10 @@ namespace WOFClassLib
                     numberOfCorrectLetters = player.GuessLetter(guess, puzzle); 
                     isSolved = puzzle.IsSolved();
                    
+
                 }
                 Console.WriteLine("You guessed: {0}", guess);
+                Console.WriteLine(puzzle.GetPuzzleDisplay());
             }
 
             if(isSolved)
