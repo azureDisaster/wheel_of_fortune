@@ -74,8 +74,21 @@ namespace WOFClassLib
             return numLetters;
         }
 
+        /// <summary>
+        ///  Guesses the letter. If the guess was correct, add spinAmount*letters to the player's Round money.
+        /// </summary>
+        /// <param name="guess">The string for the letter is being guessed</param>
+        /// <param name="puzzle">the puzzle we are </param>
+        /// <param name="spinAmount"></param>
+        /// <returns>The number of letters matched</returns>
         public int GuessLetter(string guess, Puzzle puzzle, int spinAmount = 0)
         {
+
+            if (guess.Length != 1)
+            {
+                throw new ArgumentException("The guessed string must have a length of one.", nameof(guess));
+            }
+
             char ch = guess[0];
             return GuessLetter(ch, puzzle, spinAmount);
         }
