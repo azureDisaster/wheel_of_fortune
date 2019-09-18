@@ -1,26 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WOFClassLib
 {
+    /// <summary>
+    /// This class uses the Player and Puzzle classes to perform the functions of running a game.
+    /// </summary>
     public class Game
     {
         public  List<Player> players = new List<Player>();
-
         public Puzzle puzzle = new Puzzle("hello"); //hardcoded atm
         public static bool playing = true;
-       
-        //public int numberOfMatches = 0;
         public int totalPlayers;
+       
+        /// <summary>
+        /// This method will prompt the user for details regarding the initialization of the game. 
+        /// </summary>
         public void Start()
         {
-            
-            Console.WriteLine("Welcome to Wheel of Fortune!! How many players would you like to begin with?");
-            totalPlayers = Int32.Parse(Console.ReadLine());
+            bool valid = false;
+            do
+            {
+                Console.WriteLine("Welcome to Wheel of Fortune!! How many players would you like to begin with?");
+                string input = Console.ReadLine();
+                valid = Int32.TryParse(input, out totalPlayers);
+            } while (!valid);
 
             for (int i = 0; i < totalPlayers; i++)
             {
@@ -42,13 +46,14 @@ namespace WOFClassLib
             }
 
             Quit();
-
-
         }
 
+        /// <summary>
+        /// This method will create a player for every player in the game. 
+        /// </summary>
+        /// <param name="player">A player object instantiated by the Player class.</param>
         public void Play(Player player)
         {
-           
             Console.WriteLine("Hey {0}! Make a guess.", player.Name);
             string guess = Console.ReadLine(); 
             int numberOfCorrectLetters = 0; 
@@ -106,6 +111,9 @@ namespace WOFClassLib
             }
 
         }
+        /// <summary>
+        /// If called, this method will exit the game once the user presses a key.
+        /// </summary>
         public void Quit()
         {
             Console.WriteLine("The game is over! Press any key to exit out.");
