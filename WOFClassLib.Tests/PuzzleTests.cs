@@ -81,8 +81,11 @@ namespace WOFClassLib.Tests
 
         [Theory]
         [InlineData("Microsoft Azure", "MICROSOFT AZURE", true)]
+        [InlineData("AN APPLE A DAY", "An Apple A Day", true)]
+        [InlineData("banana", "banana", true)]
         [InlineData("dogs", "cats", false)]
         [InlineData("United States of America", "UNITED STATES", false)]
+        [InlineData("tissue", "napkins", false)]
         public void TestSolvePuzzle(string phrase, string guess, bool expectedResult)
         {
             Puzzle testPuzzle = new Puzzle(phrase);
