@@ -27,16 +27,40 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: VSTest@2
+- task: DotNetCoreCLI@2
+  displayName: 'Install ReportGenerator'
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    command: custom
+    custom: tool
+    arguments: 'install --global dotnet-reportgenerator-globaltool'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Run unit tests - $(buildConfiguration)'
+  inputs:
+    command: 'test'
+    arguments: '--no-build --configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+    publishTestResults: true
+    projects: '**/*.Tests.csproj'
+
+- script: |
+    reportgenerator -reports:$(Build.SourcesDirectory)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines
+  displayName: 'Create code coverage report'
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage report'
+  inputs:
+    codeCoverageTool: 'cobertura'
+    summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
 
 - task: CopyFiles@2
+  displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
   inputs:
-    Contents: '**\bin\**'
+    Contents: |
+     **\WheelOfFortune\bin\**\*.exe
+     **\WheelOfFortune\bin\**\*.dll
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
-    
+
+
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
