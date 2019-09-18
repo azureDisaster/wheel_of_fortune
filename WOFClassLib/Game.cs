@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,11 +9,11 @@ namespace WOFClassLib
 {
     public class Game
     {
-        public List<int> players = new List<int>();
+        public  List<Player> players = new List<Player>();
 
         public Puzzle puzzle = new Puzzle("hello"); //hardcoded atm
         public static bool playing = true;
-        public int currentPlayer = 1;
+       
         //public int numberOfMatches = 0;
         public int totalPlayers;
         public void Start()
@@ -21,19 +22,23 @@ namespace WOFClassLib
             Console.WriteLine("Welcome to Wheel of Fortune!! How many players would you like to begin with?");
             totalPlayers = Int32.Parse(Console.ReadLine());
 
-            for (int i = totalPlayers; i > 0; i--)
+            for (int i = 0; i < totalPlayers; i++)
             {
-
-                players.Add(i);
+                Console.WriteLine("Hey player {0} add your name.", i+1);
+                players.Add(new Player(Console.ReadLine())); // adds a player obj to list
+                
             }
-
-
+       
             Console.WriteLine("Alright, starting with {0} player(s)!", totalPlayers);
+            int index = 0;
+            Player currentPlayer = players[index];
 
             while (playing) // if the game is being played, loop thru the players
             {
-                Play(currentPlayer);
-                currentPlayer = currentPlayer == totalPlayers ? 1 : currentPlayer += 1;
+                Play(currentPlayer); // call play on the current player object
+                index = index + 1 == totalPlayers ? 0 : index += 1;
+                currentPlayer = players[index];
+                // currentPlayer = currentPlayer == totalPlayers ? 1 : currentPlayer += 1;
             }
 
             Quit();
@@ -41,28 +46,30 @@ namespace WOFClassLib
 
         }
 
-        public void Play(int player)
+        public void Play(Player player)
         {
            
-            Console.WriteLine("Hey player {0}! Make a guess.", player);
-            string guess = Console.ReadLine();
+            Console.WriteLine("Hey {0}! Make a guess.", player.Name);
+            string guess = Console.ReadLine(); 
             int numberOfCorrectLetters = 0; 
 
             try
             {
               Console.WriteLine("You guessed: {0}!", guess);
-              numberOfCorrectLetters = puzzle.Guess(guess); 
+              numberOfCorrectLetters = player.GuessLetter(guess, puzzle);
             }
             catch(ArgumentException)
             {
                 Console.WriteLine("Please enter a single letter.");
                 guess = Console.ReadLine();
-                numberOfCorrectLetters = puzzle.Guess(guess);
+                numberOfCorrectLetters = player.GuessLetter(guess, puzzle); 
             }
 
-                bool isSolved = puzzle.IsSolved();
-                
-            
+                bool isSolved = puzzle.IsSolved(); // false
+                Console.WriteLine(isSolved);
+                Console.WriteLine(puzzle.GetPuzzleDisplay());
+           
+
 
             while (numberOfCorrectLetters >= 1 && !isSolved)
             {
@@ -71,23 +78,20 @@ namespace WOFClassLib
                 guess = Console.ReadLine();
                 if(guess.Length > 1) // trying to guess the phrase
                 {
-                    isSolved = puzzle.Solve(guess); // returns if solved with phrase or not
-                    
-                    
+                    isSolved = player.SolvePuzzle(guess, puzzle); // last modified
                     if (isSolved)
                     {
                         Console.WriteLine("You solved it!");
                         Quit();
                     }
+                    numberOfCorrectLetters = 0;
                 } else
                 {  
-                    numberOfCorrectLetters = puzzle.Guess(guess); 
+                    numberOfCorrectLetters = player.GuessLetter(guess, puzzle); 
                     isSolved = puzzle.IsSolved();
                    
                 }
                 Console.WriteLine("You guessed: {0}", guess);
-
-                numberOfCorrectLetters = puzzle.Guess(guess);
             }
 
             if(isSolved)
