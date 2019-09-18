@@ -55,6 +55,7 @@ namespace WOFClassLib
         public void Play(Player player)
         {
             Console.WriteLine("Hey {0}! Make a guess.", player.Name);
+            Console.WriteLine(puzzle.GetPuzzleDisplay());
             string guess = Console.ReadLine(); 
             int numberOfCorrectLetters = 0; 
 
