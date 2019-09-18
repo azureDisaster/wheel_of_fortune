@@ -112,7 +112,14 @@ namespace WOFClassLib
 
             } else
             {
-            Console.WriteLine("Your guess was wrong... Let's move on to the next player.");
+                if(totalPlayers == 1)
+                {
+                 Console.WriteLine("Your guess was wrong. It's okay, you may try again.");
+                }
+                else
+                {
+                 Console.WriteLine("Your guess was wrong... Let's move on to the next player.");
+                }
             }
 
         }
