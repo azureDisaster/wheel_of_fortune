@@ -16,6 +16,10 @@ namespace WOFClassLib
         private char[] display;
         private bool solved = false;
 
+        /// <summary>
+        /// A constructor that creates an instance of a Puzzle.
+        /// </summary>
+        /// <param name="phrase">The solution phrase for the puzzle.</param>
         public Puzzle(string phrase)
         {
             puzzlePhrase = phrase.ToUpper();
@@ -23,6 +27,12 @@ namespace WOFClassLib
             display = InitializePuzzle(phrase.ToUpper());
         } 
         
+        /// <summary>
+        /// Creates the initial state of the puzzle's display. It validates each character of the phrase, 
+        /// and substitutes dashes for the letters.
+        /// </summary>
+        /// <param name="phrase">The phrase for the puzzle</param>
+        /// <returns>The current state of the puzzle as an array of chars</returns>
         private char[] InitializePuzzle(string phrase)
         {
             string puzzle = "";
@@ -57,16 +67,29 @@ namespace WOFClassLib
             return puzzle.ToCharArray();     
         }
 
+        /// <summary>
+        /// Gets the current state of the puzzle display in array form
+        /// </summary>
+        /// <returns>An array of characters representing the current state of the puzzle display</returns>
         private char[] GetPuzzleDisplayAsArray()
         {
             return display;
         }
 
+        /// <summary>
+        /// Gets the current state of the puzzle display 
+        /// </summary>
+        /// <returns>A string representing the current state of the puzzle</returns>
         public string GetPuzzleDisplay()
         {
             return new string(display);
         }
 
+        /// <summary>
+        /// Checks if a letter guessed is in the puzzle, and updates the puzzle display accordingly.
+        /// </summary>
+        /// <param name="guess"></param>
+        /// <returns>The number of times the letter guessed appears in the puzzle phrase</returns>
         public int Guess(char guess)
         {
             if (!char.IsLetter(guess))
@@ -95,39 +118,11 @@ namespace WOFClassLib
             return numberOfMatches;
         }
 
-        public int Guess(string guess)
-        {
-            if(guess.Length != 1)
-            {
-                throw new ArgumentException("The guessed string must have a length of one.");
-            }
-
-            foreach(char c in guess)
-            {
-                if (!char.IsLetter(c))
-                {
-                    throw new ArgumentException("The guessed stringr must be a valid letter");
-                }
-            }
-
-            char guessed_char = char.ToUpper(guess[0]);
-            int numberOfMatches = 0;
-            char[] currentDisplayArray = GetPuzzleDisplayAsArray();
-            for(int i = 0; i < phraseLength; i++)
-            {
-                if(puzzlePhrase[i].Equals(guessed_char))
-                {
-                    numberOfMatches++;
-                    currentDisplayArray[i] = guessed_char;
-                    if(!display.Contains('-'))
-                    {
-                        solved = true;
-                    }
-                }
-            }
-            return numberOfMatches;
-        }
-
+        /// <summary>
+        /// Checks if the guessed solution to a puzzle is correct.
+        /// </summary>
+        /// <param name="guess">The guessed solution</param>
+        /// <returns>A boolean value that is true if the solution is correct, and false otherwise.</returns>
         public bool Solve(string guess)
         {
             if(guess.ToUpper().Equals(puzzlePhrase))
@@ -141,6 +136,10 @@ namespace WOFClassLib
             }
         }
 
+        /// <summary>
+        /// Gets whether the puzzle has been solved or not.
+        /// </summary>
+        /// <returns>A boolean value that is true if the state of puzzle is solved, and false otherwise.</returns>
         public bool IsSolved()
         {
             return solved;
