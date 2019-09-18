@@ -22,15 +22,25 @@ namespace WOFClassLib.Tests
             Assert.Equal(expected, actual);
         }
 
+        [Theory]
+        [InlineData("")]
+        [InlineData("DO")]
+        public void GuessLetter_BadStringGuessShouldThrowException(string guess)
+        {
+            var sut = new Player();
+            var puzzle = new Puzzle("DOG");
+            Assert.Throws<ArgumentException>(() => sut.GuessLetter(guess, puzzle));
+        }
+
         [Fact]
-        public void GuessLetter_PuzzleNullShouldThrowError()
+        public void GuessLetter_PuzzleNullShouldThrowException()
         {
             var sut = new Player();
             Assert.Throws<ArgumentNullException>(() => sut.GuessLetter('D', null));
         }
 
         [Fact]
-        public void GuessLetter_SpinAmountNegativeShouldThrowError()
+        public void GuessLetter_SpinAmountNegativeShouldThrowException()
         {
             var sut = new Player();
             var puzzle = new Puzzle("DOG");
@@ -53,7 +63,7 @@ namespace WOFClassLib.Tests
         }
 
         [Fact]
-        public void GuessLetter_GuessIncorrectRoundMOneyShouldNotIncrease()
+        public void GuessLetter_GuessIncorrectRoundMoneyShouldNotIncrease()
         {
             var sut = new Player();
             var puzzle = new Puzzle("DOG");
@@ -70,7 +80,7 @@ namespace WOFClassLib.Tests
 
 
         [Fact]
-        public void SolvePuzzle_PuzzleNullShouldThrowError()
+        public void SolvePuzzle_PuzzleNullShouldThrowException()
         {
             var sut = new Player();
             Assert.Throws<ArgumentNullException>(() => sut.SolvePuzzle("DOG", null));
