@@ -74,6 +74,13 @@ namespace WOFClassLib
             return numLetters;
         }
 
+        public int GuessLetter(string guess, Puzzle puzzle, int spinAmount = 0)
+        {
+            char ch = guess[0];
+            return GuessLetter(ch, puzzle, spinAmount);
+        }
+
+
         /// <summary>
         /// Attempt to solve the puzzle. If the guess was correct, add the player's Round money to their TotalMoney.
         /// </summary>

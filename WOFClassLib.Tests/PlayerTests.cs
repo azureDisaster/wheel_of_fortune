@@ -10,6 +10,17 @@ namespace WOFClassLib.Tests
 {
     public class PlayerTests
     {
+        [Theory]
+        [InlineData("D","DOG", 1)]
+        [InlineData("X", "DOG", 0)]
+        [InlineData("U", "BLUES CLUES", 2)]
+        public void GuessLetter_StringGuessTests(string guess, string puzzleString, int expected)
+        {
+            var sut = new Player();
+            var puzzle = new Puzzle(puzzleString);
+            int actual = sut.GuessLetter(guess, puzzle);
+            Assert.Equal(expected, actual);
+        }
 
         [Fact]
         public void GuessLetter_PuzzleNullShouldThrowError()
