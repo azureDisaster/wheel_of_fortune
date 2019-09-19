@@ -6,6 +6,12 @@ A basic wheel of fortune console app!
 ## Getting Started
 Fork this repo and clone it locally. Open the file called 'WheelOfFortune.sln' in Visual Studio. Once you click run, the game will begin.
 
+For reference, the hardcoded phrases are located in WOFClassLib.Tests/Phrase.cs
+
+Once you begin you will be prompted for the number of users, and their names. 
+You can attempt to guess a letter, but in true Wheel of Fortune fashion you may never attempt to guess a phrase before guessing a letter first. The spelling must be exact, but the game is case insensitive. 
+Once someone guesses the phrase or last letter the game ends.
+
 ### Prerequisites
 [Visual Studio](https://visualstudio.microsoft.com/vs/)
 
