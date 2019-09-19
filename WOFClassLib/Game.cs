@@ -23,19 +23,19 @@ namespace WOFClassLib
             bool valid = false;
             do
             {
-                Console.WriteLine("Welcome to Wheel of Fortune!! How many players would you like to begin with?");
+                Console.WriteLine("\n \n Welcome to Wheel of Fortune \n   sponsored by Azure Disaster LLC. \n\n How many players would you like to begin with? \n");
                 string input = Console.ReadLine();
                 valid = Int32.TryParse(input, out totalPlayers);
             } while (!valid);
 
             for (int i = 0; i < totalPlayers; i++)
             {
-                Console.WriteLine("Hey player {0} add your name.", i+1);
+                Console.WriteLine("\nHey player {0} What's your name? \n", i+1);
                 players.Add(new Player(Console.ReadLine())); // adds a player obj to list
                 
             }
        
-            Console.WriteLine("Alright, starting with {0} player(s)!", totalPlayers);
+            Console.WriteLine("\nAlright, starting with {0} player(s)! \n", totalPlayers);
             int index = 0;
             Player currentPlayer = players[index];
 
@@ -56,7 +56,7 @@ namespace WOFClassLib
         /// <param name="player">A player object instantiated by the Player class.</param>
         public void Play(Player player)
         {
-            Console.WriteLine("Hey {0}! Now it's your turn, make a guess. Remember, you can only guess a letter, no solving allowed!\n", player.Name);
+            Console.WriteLine("\n Hey {0}! Now it's your turn, make a guess. Remember, you can only guess a letter, no solving allowed!\n", player.Name);
             Console.WriteLine(puzzle.GetPuzzleDisplay());
             string guess ; 
             int numberOfCorrectLetters = 0; 
@@ -64,15 +64,23 @@ namespace WOFClassLib
             try
             {
               guess = Console.ReadLine();
-              Console.WriteLine("You guessed: {0}! \n", guess);
+              Console.WriteLine("\nYou guessed: {0}! \n", guess);
 
               numberOfCorrectLetters = player.GuessLetter(guess, puzzle);
             }
             catch(ArgumentException)
             {
-                Console.WriteLine("Please enter a single letter.");
+                Console.WriteLine("\nThis is your first guess, please enter a single letter. \n");
+
                 guess = Console.ReadLine();
+                while (guess.Length > 1)
+                {
+                    Console.WriteLine("\nAgain, Please enter a single letter as your first guess!  \n");
+                    guess = Console.ReadLine();
+                    
+                }
                 numberOfCorrectLetters = player.GuessLetter(guess, puzzle);
+        
             }
             Console.WriteLine(puzzle.GetPuzzleDisplay());
             bool isSolved = puzzle.IsSolved(); // false
@@ -83,7 +91,7 @@ namespace WOFClassLib
             while (numberOfCorrectLetters >= 1 && !isSolved)
             {
                 
-                Console.WriteLine("Since you guessed correctly, make another guess or attempt to solve!");
+                Console.WriteLine("\nSince you guessed correctly, make another guess or attempt to solve! \n");
                 
                 // if the guess.length > 1 then assign as a string
                 guess = Console.ReadLine();
@@ -92,7 +100,7 @@ namespace WOFClassLib
                     isSolved = player.SolvePuzzle(guess, puzzle); // last modified
                     if (isSolved)
                     {
-                        Console.WriteLine("You solved it!");
+                        Console.WriteLine("YAYYYY! You solved it! \n");
                         Console.WriteLine(puzzle.GetPuzzleDisplay());
                         Quit();
                     }
@@ -104,13 +112,13 @@ namespace WOFClassLib
                    
 
                 }
-                Console.WriteLine("You guessed: {0}", guess);
+                Console.WriteLine("You guessed: {0} \n", guess);
                 Console.WriteLine(puzzle.GetPuzzleDisplay());
             }
 
             if(isSolved)
             {
-                Console.WriteLine("Congrats!");
+                Console.WriteLine("\n Congrats! You solved it! \n");
                 playing = false;
                 
 
@@ -118,11 +126,11 @@ namespace WOFClassLib
             {
                 if(totalPlayers == 1)
                 {
-                 Console.WriteLine("Your guess was wrong. It's okay, you may try again.");
+                 Console.WriteLine("Your guess was wrong. It's okay, you may try again. \n");
                 }
                 else
                 {
-                 Console.WriteLine("Your guess was wrong... Let's move on to the next player.");
+                 Console.WriteLine("Your guess was wrong... Let's move on to the next player. \n");
                 }
             }
 
@@ -132,7 +140,7 @@ namespace WOFClassLib
         /// </summary>
         public void Quit()
         {
-            Console.WriteLine("The game is over! Press any key to exit out.");
+            Console.WriteLine("The game is over! Press any key to exit...Byeeee~ \n");
             Console.ReadKey();
             Environment.Exit(0);
         }
