@@ -56,15 +56,16 @@ namespace WOFClassLib
         /// <param name="player">A player object instantiated by the Player class.</param>
         public void Play(Player player)
         {
-            Console.WriteLine("Hey {0}! Make a guess.", player.Name);
+            Console.WriteLine("Hey {0}! Now it's your turn, make a guess. Remember, you can only guess a letter, no solving allowed!\n", player.Name);
             Console.WriteLine(puzzle.GetPuzzleDisplay());
-            string guess = Console.ReadLine(); 
+            string guess ; 
             int numberOfCorrectLetters = 0; 
 
             try
             {
-              Console.WriteLine("You guessed: {0}!", guess);
-              //Console.WriteLine(puzzle.GetPuzzleDisplay());
+              guess = Console.ReadLine();
+              Console.WriteLine("You guessed: {0}! \n", guess);
+
               numberOfCorrectLetters = player.GuessLetter(guess, puzzle);
             }
             catch(ArgumentException)
