@@ -85,7 +85,6 @@ namespace WOFClassLib
                 guess = Console.ReadLine();
 
                 bool stringGuess = Regex.IsMatch(guess, "^[a-zA-Z]+"); // returns true if only contains letters
-                Console.WriteLine(stringGuess);
                                                                     
                 while (!stringGuess)
                 {
