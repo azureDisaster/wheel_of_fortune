@@ -121,6 +121,48 @@ namespace WOFClassLib.Tests
 
         }
 
+        [Fact]
+        public void NewRound_RoundMoneyShouldBeZero()
+        {
+            var sut = new Player();
+            var puzzle = new Puzzle("DOG");
 
+            int spinAmount = 100;
+            sut.GuessLetter('D', puzzle, spinAmount);
+
+            Assert.Equal(100, sut.RoundMoney);
+            sut.NewRound();
+            Assert.Equal(0, sut.RoundMoney);            
+        }
+
+        [Fact]
+        public void NewGame_TotalAndRoundMoneyShouldBeZero()
+        {
+            var sut = new Player();
+            var puzzle = new Puzzle("DOG");
+
+            // guess one letter to bring round money to $100
+            int spinAmount = 100;
+            sut.GuessLetter('D', puzzle, spinAmount);
+            Assert.Equal(100, sut.RoundMoney); 
+
+            // solve the puzzle to bring total money to $100
+            sut.SolvePuzzle("DOG", puzzle);
+            Assert.Equal(100, sut.TotalMoney);
+
+            // start a new game, total money and round money should be zero
+            sut.NewGame();
+            Assert.Equal(0, sut.RoundMoney);
+            Assert.Equal(0, sut.TotalMoney);
+        }
+
+        [Theory]
+        [InlineData("Diane")]
+        public void PropertyName_Test(string expected)
+        {
+            var sut = new Player(expected);
+            string actual = sut.Name;
+            Assert.Equal(expected, actual);
+        }
     }
 }
