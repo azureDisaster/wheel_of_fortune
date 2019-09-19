@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace WOFClassLib
 {
@@ -61,41 +62,41 @@ namespace WOFClassLib
             string guess ; 
             int numberOfCorrectLetters = 0; 
 
-            try
-            {
-              guess = Console.ReadLine();
-              Console.WriteLine("\nYou guessed: {0}! \n", guess);
-
-              numberOfCorrectLetters = player.GuessLetter(guess, puzzle);
-            }
-            catch(ArgumentException)
+            bool validGuess = false;
+            do
             {
                 Console.WriteLine("\nThis is your first guess, please enter a single letter. \n");
-
                 guess = Console.ReadLine();
-                while (guess.Length > 1)
-                {
-                    Console.WriteLine("\nAgain, Please enter a single letter as your first guess!  \n");
-                    guess = Console.ReadLine();
-                    
-                }
-                numberOfCorrectLetters = player.GuessLetter(guess, puzzle);
-        
-            }
+                Console.WriteLine("\nYou guessed: {0}! \n", guess);  
+                validGuess = Regex.IsMatch(guess, @"^[a-zA-Z]+$");
+            } while (!validGuess);
+
+            numberOfCorrectLetters = player.GuessLetter(guess, puzzle);
+
+
             Console.WriteLine(puzzle.GetPuzzleDisplay());
             bool isSolved = puzzle.IsSolved(); // false
                 
-           
-
 
             while (numberOfCorrectLetters >= 1 && !isSolved)
             {
-                
+
                 Console.WriteLine("\nSince you guessed correctly, make another guess or attempt to solve! \n");
-                
                 // if the guess.length > 1 then assign as a string
                 guess = Console.ReadLine();
-                if(guess.Length > 1) // trying to guess the phrase
+
+                bool stringGuess = Regex.IsMatch(guess, "^[a-zA-Z]+"); // returns true if only contains letters
+                Console.WriteLine(stringGuess);
+                                                                    
+                while (!stringGuess)
+                {
+                    Console.WriteLine("\nPlease guess a letter or phrase.\n");
+                    guess = Console.ReadLine();
+                    Console.WriteLine("\nYou guessed: {0}! \n", guess);
+                    stringGuess = Regex.IsMatch(guess, @"^[a-zA-Z]+$");
+                }
+
+                if (guess.Length > 1) // trying to guess the phrase
                 {
                     isSolved = player.SolvePuzzle(guess, puzzle); // last modified
                     if (isSolved)
