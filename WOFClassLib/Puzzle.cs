@@ -128,6 +128,7 @@ namespace WOFClassLib
             if(guess.ToUpper().Equals(puzzlePhrase))
             {
                 solved = true;
+                display = puzzlePhrase.ToCharArray();
                 return true;
             }
             else
