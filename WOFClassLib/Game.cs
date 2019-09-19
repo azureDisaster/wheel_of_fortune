@@ -59,20 +59,19 @@ namespace WOFClassLib
         {
             Console.WriteLine("\n Hey {0}! Now it's your turn, make a guess. Remember, you can only guess a letter, no solving allowed!\n", player.Name);
             Console.WriteLine(puzzle.GetPuzzleDisplay());
-            string guess ; 
+            string guess = ""; 
             int numberOfCorrectLetters = 0; 
 
             bool validGuess = false;
-            do
-            {
+
+            while (!validGuess) {
                 Console.WriteLine("\nThis is your first guess, please enter a single letter. \n");
                 guess = Console.ReadLine();
-                Console.WriteLine("\nYou guessed: {0}! \n", guess);  
-                validGuess = Regex.IsMatch(guess, @"^[a-zA-Z]+$");
-            } while (!validGuess);
+                Console.WriteLine("\nYou guessed: {0}! \n", guess);
+                validGuess = Regex.IsMatch(guess, "^[a-zA-Z]") && guess.Length == 1;
+            }
 
             numberOfCorrectLetters = player.GuessLetter(guess, puzzle);
-
 
             Console.WriteLine(puzzle.GetPuzzleDisplay());
             bool isSolved = puzzle.IsSolved(); // false
