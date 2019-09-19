@@ -25,7 +25,7 @@ namespace WOFClassLib
             {
                 Console.WriteLine("Welcome to Wheel of Fortune!! How many players would you like to begin with?");
                 string input = Console.ReadLine();
-                valid = Int32.TryParse(input, out totalPlayers);
+                valid = Int32.TryParse(input, out totalPlayers) && totalPlayers >= 1 ? Int32.TryParse(input, out totalPlayers) : false;
             } while (!valid);
 
             for (int i = 0; i < totalPlayers; i++)
