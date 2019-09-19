@@ -9,7 +9,8 @@ namespace WOFClassLib
     public class Game
     {
         public  List<Player> players = new List<Player>();
-        public Puzzle puzzle = new Puzzle("hello"); //hardcoded atm
+        private Phrase phrase = new Phrase();
+        public Puzzle puzzle;
         public static bool playing = true;
         public int totalPlayers;
        
@@ -18,6 +19,7 @@ namespace WOFClassLib
         /// </summary>
         public void Start()
         {
+            puzzle = new Puzzle(phrase.GetPhrase());
             bool valid = false;
             do
             {
