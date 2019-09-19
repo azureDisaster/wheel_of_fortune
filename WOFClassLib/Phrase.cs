@@ -55,7 +55,14 @@ namespace WOFClassLib
             if (phrases.Count == 0)
             {
                 phrases = usedPhrases;
-                usedPhrases = new List<string>();
+
+                // Move the last phrase used to the usedPhrases, so we don't
+                // get the same phrase twice in a row
+
+                string lastPhase = phrases[phrases.Count - 1];
+                phrases.RemoveAt(phrases.Count - 1);
+                usedPhrases = new List<string> { lastPhase };
+
             }
 
             //grab a random phrase from the list
