@@ -104,5 +104,13 @@ namespace WOFClassLib.Tests
                 Assert.False(testPuzzle.IsSolved());
             }
         }
+
+        [Theory]
+        [InlineData("$Bling$")]
+        [InlineData("Too   Many   Spaces")]
+        public void InitializePuzzle_BadPuzzleThrowsException(string phrase)
+        {
+            Assert.Throws<ArgumentException>(() => new Puzzle(phrase));
+        }
     }
 }
